@@ -8,7 +8,8 @@ import {transform} from './../../thirdparty/fft.js';
 var saveLoadActions = Reflux.createActions(
 	[
 		'save',
-		'loadMacaronFile'
+		'loadMacaronFile',
+		'loadAudioGuide'
 	]
 );
 
@@ -298,10 +299,41 @@ var saveLoadStore = Reflux.createStore({
 
 			reader.readAsText(file); //assumes 'utf8'
 		}
+	},
+
+	onLoadAudioGuide(file) {
+		var reader = new FileReader();
+		reader.filename = file.name;
+
+		// Case 1: It's a WAV file...
+		if (reader.filename.indexOf('.wav') >= 0) {
+			reader.onload = function (e) {
+				var waveData = reader.result;
+				if (isWAVFile(reader, reader.filename)) {
+					loadWAVFile(reader);
+				} else {
+					alert('The selected file wasnt one that Macaron recognizes');
+				}
+			}
+
+			reader.readAsArrayBuffer(file);
+		}
+
+		// Case 2: It's a JSON File or something else...
+		else {
+			reader.onload = function (e) {
+				var waveData = reader.result;
+				if (isJSONFile(reader, reader.filename)) {
+					VTIconStore.actions.setVTIcon(JSON.parse(waveData.slice(29)), "main");
+				} else {
+					alert('The selected file wasnt one that Macaron recognizes. Please upload an appropriate WAV or JSON file.');
+				}
+			}
+
+			reader.readAsText(file); //assumes 'utf8'
+		}
 	}
 });
-
-
 
 
 /**

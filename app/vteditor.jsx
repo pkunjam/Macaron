@@ -272,6 +272,7 @@ var VTEditor = React.createClass({
 		var scaleXExample = this.state.scales.example.scaleTimeline;
 
 		var design_icon = this.state.vticons["main"];
+		var audio_guide_icon = this.state.vticons["audio guide"];
 		var example_icon = this.state.vticons["example"];
 
 
@@ -384,7 +385,7 @@ var VTEditor = React.createClass({
 						duration={design_icon.duration} 
 						keyframeCircleRadius={this.props.keyframeCircleRadius} 
 						playheadFill={this.props.playheadFill}/>
-					<IconVis name="main"
+					<IconVis name="audio guide"
 						scaleX={scaleXMain} 
 						vticon={design_icon} 
 						currentTime={this.state.playback.currentTime} 
@@ -393,6 +394,15 @@ var VTEditor = React.createClass({
 						interpolateParameters={this.interpolateParameters} 
 						interpolateParameter={this.interpolateParameter}
 						selection={this.state.selection}/>
+					<IconVis name="main"
+						scaleX={scaleXMain}
+						vticon={design_icon}
+						currentTime={this.state.playback.currentTime}
+						keyframeCircleRadius={this.props.keyframeCircleRadius}
+						playheadFill={this.props.playheadFill}
+						interpolateParameters={this.interpolateParameters}
+						interpolateParameter={this.interpolateParameter}
+						selection={this.state.selection} />
 					{Object.keys(design_icon.parameters).map( (p) => (
 							<KeyframeEditor 
 								name="main" 
@@ -405,8 +415,8 @@ var VTEditor = React.createClass({
 								selection={this.state.selection}/>
 						))}
 				</div>
-				{exampleEditor}
-				{exampleGallery}
+				{/* {exampleEditor} */}
+				{/* {exampleGallery} */}
 				
 			</div>);
 		},
