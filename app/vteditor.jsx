@@ -21,6 +21,7 @@ var ClipboardStore = require('./stores/clipboardstore.js');
 var AnimationStore = require('./stores/animationstore.js');
 var StudyStore = require('./stores/studystore.js')
 
+var SaveLoadStore = require('./stores/saveloadstore.js');
 
 
 
@@ -349,7 +350,8 @@ var VTEditor = React.createClass({
 							visualizeTicks={visualizeTicks}
 							modifiable={modifiable} />
 					))}
-				</div>);
+				</div>
+				);
 			exampleGallery = <Gallery />;
 		}
 
@@ -377,10 +379,10 @@ var VTEditor = React.createClass({
 							keyframeCircleRadius={this.props.keyframeCircleRadius}
 							playheadFill={this.props.playheadFill} />
 					</div>
-					<div style={{ position: "absolute", width: "100%", zIndex: -1, marginTop: "65px" }}>
+					<div >
 
 
-						<IconVis name="audio guide"
+						{/* <IconVis name="audio guide"
 							scaleX={scaleXMain}
 							vticon={design_icon}
 							currentTime={this.state.playback.currentTime}
@@ -388,8 +390,8 @@ var VTEditor = React.createClass({
 							playheadFill={this.props.playheadFill}
 							interpolateParameters={this.interpolateParameters}
 							interpolateParameter={this.interpolateParameter}
-							selection={this.state.selection} />
-						{/* <IconVis name="main"
+							selection={this.state.selection} /> */}
+						<IconVis name="main"
 						scaleX={scaleXMain}
 						vticon={design_icon}
 						currentTime={this.state.playback.currentTime}
@@ -397,7 +399,11 @@ var VTEditor = React.createClass({
 						playheadFill={this.props.playheadFill}
 						interpolateParameters={this.interpolateParameters}
 						interpolateParameter={this.interpolateParameter}
-						selection={this.state.selection} /> */}
+						selection={this.state.selection} />
+
+						{/* Audio player */}
+						<audio id="musicPlayer" ></audio>
+
 					</div>
 					<div>
 

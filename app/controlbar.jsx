@@ -36,6 +36,16 @@ var ControlBar = React.createClass({
 	_onPlayClick : function (event) {
 		VTIconStore.actions.selectVTIcon(this.props.name);
 		PlaybackStore.actions.togglePlaying();
+
+
+		// Audio playback
+		var musicPlayer = document.getElementById("musicPlayer");
+		if (musicPlayer.paused) {
+			musicPlayer.play();
+		  } else {
+			musicPlayer.pause();
+		  }
+
 	},
 
 	_onSkipBackwardClick : function (event) {

@@ -9,7 +9,8 @@ var saveLoadActions = Reflux.createActions(
 	[
 		'save',
 		'loadMacaronFile',
-		'loadAudioGuide'
+		'loadAudioGuide',
+		'onLoadMusic'
 	]
 );
 
@@ -265,10 +266,17 @@ var saveLoadStore = Reflux.createStore({
 	},
 
 
+	//Loads an audio playback file
+	onLoadMusic(file){
+		var musicPlayer = document.getElementById("musicPlayer");
+		musicPlayer.src = URL.createObjectURL(file);
+		// musicPlayer.play();
 
+	},
 
 
 	onLoadMacaronFile(file) {
+
 		var reader = new FileReader();
 		reader.filename = file.name;
 
@@ -597,7 +605,7 @@ var loadWAVFile = function(r) {
 	var y;  // speaker displacement at time = t
 
 	var sampleRate;
-	var duration;
+	var duration; 
 	var nChannels;
 	var nFrames;
 	var wavedata = r.result;

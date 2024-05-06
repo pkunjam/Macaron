@@ -58,6 +58,7 @@ var EditorHeader = React.createClass({
 	_onLoadClick : function(e) {
 		var uploadedFiles = document.getElementById(this.props.uploadFileID);
 		if (uploadedFiles.files.length > 0) {
+			SaveLoadStore.actions.onLoadMusic(uploadedFiles.files[0]);
 			SaveLoadStore.actions.loadMacaronFile(uploadedFiles.files[0]);
 		}
 		uploadedFiles.value = [];

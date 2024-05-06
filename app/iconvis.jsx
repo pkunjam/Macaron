@@ -45,7 +45,7 @@ var IconVis = React.createClass({
 
 	onVTIconChange: function (vticon) {
 		var scaleY = d3.scale.linear()
-			.domain([-1, 0]) // return value from sine
+			.domain([-1, 1]) // return value from sine
 			.range([0, this.props.height]);
 
 		var scaleX = this.props.scaleX;
