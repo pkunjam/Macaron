@@ -11,85 +11,88 @@ var DragStore = require('./stores/dragstore.js');
 
 var IconVis = React.createClass({
 
-	mixins : [
+	mixins: [
 		TimelineMixin("divWrapper"),
 		WaveformPathMixin,
-		Reflux.listenTo(VTIconStore.store,"onVTIconChange")],
+		Reflux.listenTo(VTIconStore.store, "onVTIconChange")],
 
 	propTypes: {
-		vticon : React.PropTypes.object.isRequired,
+		vticon: React.PropTypes.object.isRequired,
 		currentTime: React.PropTypes.number.isRequired,
 		keyframeCircleRadius: React.PropTypes.number.isRequired,
 		playheadFill: React.PropTypes.string.isRequired,
 		interpolateParameters: React.PropTypes.func.isRequired,
-		name : React.PropTypes.string.isRequired,
-		selection : React.PropTypes.object.isRequired			},
-
-	getDefaultProps: function() {
-	    return {
-	      height: 50,
-	      width:'100%',
-	      visColor:'#FFDDAD',
-	      background:"#FAFAFA",
-	      resolution:3000,
-	      maxFrequencyRendered:125,
-	      limitFrequencies:true,
-  	      selectionColor:'#676767',
-	      selectionOpacity:0.2,
-  	      selectable:false
-	    }
+		name: React.PropTypes.string.isRequired,
+		selection: React.PropTypes.object.isRequired
 	},
 
-	onVTIconChange: function(vticon) {
-	 	var scaleY = d3.scale.linear()
-                    .domain( [-1, 1]) // return value from sine
-                    .range([0, this.props.height]);
+	getDefaultProps: function () {
+		return {
+			height: 190,
+			width: '100%',
+			visColor: '#FFDDAD',
+			background: "rgba(0,0,0,0)",
+			resolution: 3000,
+			maxFrequencyRendered: 125,
+			limitFrequencies: true,
+			selectionColor: '#676767',
+			selectionOpacity: 0.2,
+			selectable: false,
+			position: "absolute"
 
-        var scaleX = this.props.scaleX;
+		}
+	},
+
+	onVTIconChange: function (vticon) {
+		var scaleY = d3.scale.linear()
+			.domain([-1, 0]) // return value from sine
+			.range([0, this.props.height]);
+
+		var scaleX = this.props.scaleX;
 
 		this._visPath = this.computeWaveformPath(this.props.vticon,
 			scaleX, scaleY,
 			this.props.resolution, this.props.maxFrequencyRendered, this.props.limitFrequencies);
 	},
 
-	onMouseDown: function(e) {
+	onMouseDown: function (e) {
 		VTIconStore.actions.selectVTIcon(this.props.name);
-		if(this.props.selectable) {
+		if (this.props.selectable) {
 			DragStore.actions.startTimeSelectDrag(this.props.name);
 		}
 	},
 
-	render : function() {
+	render: function () {
 
 
 		var divStyle = {
-			height:this.props.height,
-			width:this.props.width,
-			background:this.props.background
+			height: this.props.height,
+			width: this.props.width,
+			background: this.props.background
 		};
 
-        var scaleY = d3.scale.linear()
-                    .domain( [-1, 1]) // return value from sine
-                    .range([0, this.props.height]);
+		var scaleY = d3.scale.linear()
+			.domain([-1, 1]) // return value from sine
+			.range([0, this.props.height]);
 
-        var scaleX = this.props.scaleX;
+		var scaleX = this.props.scaleX;
 
 		//current time vis
 		//TODO: put this in a seperate location
 		var currentTimeLineFunc = d3.svg.line()
-								.x(function(d) {
-									return d[0]
-								})
-								.y(function(d) {
-									return d[1]
-								});
+			.x(function (d) {
+				return d[0]
+			})
+			.y(function (d) {
+				return d[1]
+			});
 		var currentTimePath = currentTimeLineFunc([
-						[scaleX(this.props.currentTime), 0],
-						[scaleX(this.props.currentTime), this.props.height]
-				]);
+			[scaleX(this.props.currentTime), 0],
+			[scaleX(this.props.currentTime), this.props.height]
+		]);
 
 		var playheadLine = <path />;
-		if(this.props.vticon.selected) {
+		if (this.props.vticon.selected) {
 			playheadLine = <path stroke={this.props.playheadFill} strokeWidth="2" fill="none" d={currentTimePath} />;
 		}
 
@@ -97,10 +100,10 @@ var IconVis = React.createClass({
 		var selectable = this.props.selectable;
 		//selection square
 		var selectionSquare = <rect />;
-		if(selectable && this.props.vticon.selectedTimeRange.active) {
+		if (selectable && this.props.vticon.selectedTimeRange.active) {
 			var tLeft = this.props.vticon.selectedTimeRange.time1;
 			var tRight = this.props.vticon.selectedTimeRange.time2;
-			if(tLeft > tRight) {
+			if (tLeft > tRight) {
 				tLeft = this.props.vticon.selectedTimeRange.time2;
 				tRight = this.props.vticon.selectedTimeRange.time1;
 			}
@@ -128,7 +131,7 @@ var IconVis = React.createClass({
 				</svg>
 
 			</div>
-			);
+		);
 	}
 
 });
