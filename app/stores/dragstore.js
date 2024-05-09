@@ -4,7 +4,6 @@ var PlaybackStore = require('./playbackstore.js');
 var ScaleStore = require('./scalestore.js');
 var VTIconStore = require('./vticonstore.js');
 var SelectionStore = require('./selectionstore.js');
-
 var LogStore = require('./logstore.js');
 
 
@@ -56,6 +55,8 @@ var dragStore = Reflux.createStore({
 		LogStore.actions.log("STARTDRAG_PLAYHEAD_"+name);
 		VTIconStore.actions.selectVTIcon(name);
 		PlaybackStore.actions.setTime(newtime);
+		var element = document.getElementById('musicPlayer');
+		element.currentTime = newtime / 1000;
 	},
 
 	onStartKeyframeDrag(name) {
@@ -87,6 +88,8 @@ var dragStore = Reflux.createStore({
 			if (this._dragging == Draggable.PLAYHEAD)
 			{
 				PlaybackStore.actions.setTime(this._scales[this._targetName].scaleTimeline.invert(unoffsetX));
+				var element = document.getElementById('musicPlayer');
+				element.currentTime = (this._scales[this._targetName].scaleTimeline.invert(unoffsetX)) / 1000;
 			} else if (this._dragging == Draggable.KEYFRAME) {
 		 		var unoffsetLastX = this._lastX - this._scales[this._targetName].leftOffset;
 

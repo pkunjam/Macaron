@@ -260,7 +260,6 @@ var VTEditor = React.createClass({
 		var scaleXExample = this.state.scales.example.scaleTimeline;
 
 		var design_icon = this.state.vticons["main"];
-		var audio_guide_icon = this.state.vticons["audio guide"];
 		var example_icon = this.state.vticons["example"];
 
 
