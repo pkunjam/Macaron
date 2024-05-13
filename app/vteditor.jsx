@@ -401,8 +401,8 @@ var VTEditor = React.createClass({
 						selection={this.state.selection} />
 
 						{/* Audio player */}
-						<audio id="musicPlayer" ></audio>
-
+						<audio id="musicPlayer"></audio>
+						
 					</div>
 					<div>
 
