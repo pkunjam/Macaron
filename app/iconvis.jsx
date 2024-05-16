@@ -92,9 +92,9 @@ var IconVis = React.createClass({
 		]);
 
 		var playheadLine = <path />;
-		if (this.props.vticon.selected) {
+		// if (this.props.vticon.selected) {
 			playheadLine = <path stroke={this.props.playheadFill} strokeWidth="2" fill="none" d={currentTimePath} />;
-		}
+		// }
 
 
 		var selectable = this.props.selectable;

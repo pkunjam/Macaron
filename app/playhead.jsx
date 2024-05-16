@@ -51,9 +51,9 @@ var PlayHead = React.createClass({
 								+ x + "," + h;
 
 		var playheadTriangle = <polygon />;
-		if (this.props.displayPlayhead) {
+		// if (this.props.displayPlayhead) {
 			playheadTriangle = <polygon points={playheadPoints} fill={this.props.playheadFill} />;
-		}
+		// }
 
 		return (
 

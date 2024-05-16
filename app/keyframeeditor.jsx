@@ -160,9 +160,9 @@ var KeyframeEditor = React.createClass({
 		}
 
 		var playheadLine = <rect />;
-		if (this.props.vticon.selected) {
+		// if (this.props.vticon.selected) {
 			playheadLine = <path stroke={this.props.playheadFill} strokeWidth="2" fill="none" d={currentTimePath} />
-		}
+		// }
 
 
 		var visualization = this.props.visualization;

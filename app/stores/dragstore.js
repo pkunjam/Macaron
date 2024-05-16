@@ -55,7 +55,7 @@ var dragStore = Reflux.createStore({
 		LogStore.actions.log("STARTDRAG_PLAYHEAD_"+name);
 		VTIconStore.actions.selectVTIcon(name);
 		PlaybackStore.actions.setTime(newtime);
-		var element = document.getElementById('musicPlayer');
+		var element = document.getElementById('musicPlayer'); // music player seek bar drag
 		element.currentTime = newtime / 1000;
 	},
 

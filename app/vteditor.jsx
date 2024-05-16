@@ -167,7 +167,10 @@ var VTEditor = React.createClass({
 		//use keyCode because it's supported by more browsers
 		//especially Safari, which has best performance so far
 		//look for deprecations in future versions
+
+		// PK: To prevent default keyboard functions for browser
 		e.preventDefault()
+		
 		var keyCode = e.keyCode || e.which;
 		switch (keyCode) {
 			case 77: //m
@@ -175,6 +178,8 @@ var VTEditor = React.createClass({
 				break;
 
 			case 32: //space bar
+
+			// Play/Pause functions for music player
 			var musicPlayer = document.getElementById("musicPlayer");
 			document.body.onkeyup = function(e) {
 				if (e.key == " " ||
@@ -190,7 +195,10 @@ var VTEditor = React.createClass({
 	
 				}
 			  }
+
+			  // Play/Pause functions for haptics
 				PlaybackStore.actions.togglePlaying();
+				
 				break;
 			case 8: //backspace
 			case 46: //delete
@@ -404,24 +412,30 @@ var VTEditor = React.createClass({
 							duration={design_icon.duration}
 							keyframeCircleRadius={this.props.keyframeCircleRadius}
 							playheadFill={this.props.playheadFill} />
+							
 					</div>
+					
 					<div >
 
-
+						{/* PK: Independent WAV file visualizer */}
 						<IconVis name="audio guide"
-							scaleX={scaleXMain}
-							vticon={example_icon}
-							currentTime={this.state.playback.currentTime}
-							keyframeCircleRadius={this.props.keyframeCircleRadius}
-							playheadFill={this.props.playheadFill}
-							interpolateParameters={this.interpolateParameters}
-							interpolateParameter={this.interpolateParameter}
-							selection={this.state.selection}
-							 />
+						scaleX={scaleXMain}
+						vticon={example_icon}
+							visColor={"rgba(255, 255, 255, 1)"}
+							background={"rgba(75,0,130,0.5)"}
+						currentTime={this.state.playback.currentTime}
+						keyframeCircleRadius={this.props.keyframeCircleRadius}
+						playheadFill={this.props.playheadFill}
+						interpolateParameters={this.interpolateParameters}
+						interpolateParameter={this.interpolateParameter}
+						selection={this.state.selection} />
 
+						{/* PK: Main editor WAV file visualizer */}
 						<IconVis name="main"
 						scaleX={scaleXMain}
 						vticon={design_icon}
+							visColor={"rgba(255, 255, 255, 1)"}
+							background={"rgba(39, 165, 115, 1)"}
 						currentTime={this.state.playback.currentTime}
 						keyframeCircleRadius={this.props.keyframeCircleRadius}
 						playheadFill={this.props.playheadFill}
@@ -433,9 +447,8 @@ var VTEditor = React.createClass({
 						<audio id="musicPlayer"></audio>
 						
 					</div>
+					
 					<div>
-
-
 						{Object.keys(design_icon.parameters).map((p) => (
 							<KeyframeEditor
 								name="main"
