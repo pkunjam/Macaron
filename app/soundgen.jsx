@@ -71,11 +71,13 @@ var SoundGen = React.createClass({
 	componentWillUnmount: function()
 	{
 		//Clean up for Audiolet, none for now
+		this.state.mult.value.setValue(0);
 
 	},
 
 	render: function() {
 		this.state.sine.frequency.setValue(this.props.frequency);
+
 		if(this.props.mute) {
 			this.state.mult.value.setValue(0);
 		} else {

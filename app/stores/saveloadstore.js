@@ -639,14 +639,23 @@ var loadWAVFile = function(r) {
 
 			var fVal = findFFTRoot(waveChunk, sampleRate);
 
-
+			// Send the new keyframes to the main editor
 			VTIconStore.actions.newKeyframe("amplitude", tMid, aVal, false, "main");
 			VTIconStore.actions.newKeyframe("frequency", tMid, fVal, false, "main");
+
+			// PK: Send the new keyframes to the example editor
+			VTIconStore.actions.newKeyframe("amplitude", tMid, aVal, false, "example");
+			VTIconStore.actions.newKeyframe("frequency", tMid, fVal, false, "example");
 		}
 
 		VTIconStore.actions.unselectKeyframes("main");
 		VTIconStore.actions.addSelectedKeyframes([0,1], "main");
 		VTIconStore.actions.deleteSelectedKeyframes("main");
+
+		// PK: Sending the keyframe operations to the example editor
+		VTIconStore.actions.unselectKeyframes("example");
+		VTIconStore.actions.addSelectedKeyframes([0, 1], "example");
+		VTIconStore.actions.deleteSelectedKeyframes("example");
 	});
 }
 

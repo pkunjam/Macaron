@@ -8,6 +8,7 @@ var ControlBar = require('./controlbar.jsx');
 var SoundGen = require('./soundgen.jsx'); //TODO
 var PlayHead = require('./playhead.jsx');
 var IconVis = require('./iconvis.jsx');
+var ExampleSquare = require('./examplesquare.jsx')
 var AnimationWindow = require('./animationwindow.jsx');
 var KeyframeEditor = require('./keyframeeditor.jsx');
 var Gallery = require('./gallery.jsx');
@@ -47,12 +48,16 @@ var VTEditor = React.createClass({
 
 	//   },
 
+
+	
+
 	getInitialState: function () {
 		return {
 			actualWidth: 10,
 			actualHeight: 10
 		}; //handled as stores
 	},
+
 
 
 	//returns parameter value for a given time
@@ -162,9 +167,29 @@ var VTEditor = React.createClass({
 		//use keyCode because it's supported by more browsers
 		//especially Safari, which has best performance so far
 		//look for deprecations in future versions
+		e.preventDefault()
 		var keyCode = e.keyCode || e.which;
 		switch (keyCode) {
+			case 77: //m
+				PlaybackStore.actions.toggleMute();
+				break;
+
 			case 32: //space bar
+			var musicPlayer = document.getElementById("musicPlayer");
+			document.body.onkeyup = function(e) {
+				if (e.key == " " ||
+					e.code == "Space" ||      
+					e.keyCode == 32      
+				) {
+					
+					if (musicPlayer.paused) {
+						musicPlayer.play();
+					  } else {
+						musicPlayer.pause();
+					  }
+	
+				}
+			  }
 				PlaybackStore.actions.togglePlaying();
 				break;
 			case 8: //backspace
@@ -354,6 +379,8 @@ var VTEditor = React.createClass({
 			exampleGallery = <Gallery />;
 		}
 
+
+
 		return (
 			<div id="app" ref="appRef">
 				<EditorHeader />
@@ -381,15 +408,17 @@ var VTEditor = React.createClass({
 					<div >
 
 
-						{/* <IconVis name="audio guide"
+						<IconVis name="audio guide"
 							scaleX={scaleXMain}
-							vticon={design_icon}
+							vticon={example_icon}
 							currentTime={this.state.playback.currentTime}
 							keyframeCircleRadius={this.props.keyframeCircleRadius}
 							playheadFill={this.props.playheadFill}
 							interpolateParameters={this.interpolateParameters}
 							interpolateParameter={this.interpolateParameter}
-							selection={this.state.selection} /> */}
+							selection={this.state.selection}
+							 />
+
 						<IconVis name="main"
 						scaleX={scaleXMain}
 						vticon={design_icon}

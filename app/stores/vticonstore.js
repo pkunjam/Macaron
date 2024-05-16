@@ -72,7 +72,7 @@ var vticonStore = Reflux.createStore({
 					},
 
 					example: { //right side editor
-						duration: 3000, //ms 
+						duration: 100000, //ms 
 
 						selected: true,  
 
@@ -84,20 +84,15 @@ var vticonStore = Reflux.createStore({
 
 						parameters: {
 							amplitude: {
-								valueScale:[0,1], 
-								data : [
-									{ id: 6, t: 600, value:0.5, selected:false},  
-									{ id: 7, t: 1500, value:1, selected:false},   
-									{ id: 8, t: 3000, value:0, selected:false}]   
+								valueScale: [0, 1], //normalized
+								data: [
+									{ id: 0, t: 1500, value: 0.5, selected: false }]
 							},
 
 							frequency: {
-								valueScale:[50,500], //Hz , was [50,500]
-								data : [
-									{ id: 9, t: 0, value:250, selected:false}, 
-									{ id: 10, t: 1200, value:50, selected:false}, 
-									{ id: 11, t: 1800, value:500, selected:false}] 
-									
+								valueScale: [50, 500], //Hz
+								data: [
+									{ id: 1, t: 1500, value: 250, selected: false }]
 							}
 						}
 					}
