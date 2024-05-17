@@ -366,6 +366,7 @@ var VTEditor = React.createClass({
 						interpolateParameters={this.interpolateParameters}
 						interpolateParameter={this.interpolateParameter}
 						selection={this.state.selection}
+						
 						selectable={iconVisSelectable} />
 					{Object.keys(example_icon.parameters).map((p) => (
 						<KeyframeEditor
@@ -421,13 +422,13 @@ var VTEditor = React.createClass({
 						<IconVis name="audio guide"
 						scaleX={scaleXMain}
 						vticon={example_icon}
-							visColor={"rgba(255, 255, 255, 1)"}
-							background={"rgba(0,0,0,0.5)"}
+							visColor={"rgba(0,0,0,0.5)"}
 						currentTime={this.state.playback.currentTime}
 						keyframeCircleRadius={this.props.keyframeCircleRadius}
 						playheadFill={this.props.playheadFill}
 						interpolateParameters={this.interpolateParameters}
 						interpolateParameter={this.interpolateParameter}
+						label={"Audio"}
 						selection={this.state.selection} />
 
 						{/* PK: Main editor WAV file visualizer */}
@@ -436,6 +437,7 @@ var VTEditor = React.createClass({
 						vticon={design_icon}
 							// visColor={"rgba(255, 255, 255, 1)"}
 							// background={"rgba(39, 165, 115, 1)"}
+						label={"Haptics"}
 						currentTime={this.state.playback.currentTime}
 						keyframeCircleRadius={this.props.keyframeCircleRadius}
 						playheadFill={this.props.playheadFill}

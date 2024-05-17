@@ -28,7 +28,7 @@ var IconVis = React.createClass({
 
 	getDefaultProps: function () {
 		return {
-			height: 100,
+			height: 150,
 			width: '100%',
 			visColor: '#FFDDAD',
 			background: "rgba(0,0,0,0)",
@@ -36,6 +36,7 @@ var IconVis = React.createClass({
 			maxFrequencyRendered: 125,
 			limitFrequencies: true,
 			selectionColor: '#676767',
+			axisNameWidth: 20,
 			selectionOpacity: 0.2,
 			selectable: false,
 			position: "absolute"
@@ -120,11 +121,14 @@ var IconVis = React.createClass({
 				fill={this.props.selectionColor}
 				opacity={this.props.selectionOpacity} />
 		}
+		var paramLabels = <text />;
+		paramLabels = (<text x="0" y="0" transform={"translate(" + this.props.axisNameWidth + "," + this.props.height / 2 + ") rotate(-90)"}>{this.props.label}</text>);
 
 		return (
 			<div ref="divWrapper" style={divStyle} onMouseDown={this.onMouseDown}>
 				<svg height="100%" width="100%">
 					<path stroke={this.props.visColor} strokeWidth="0.5" fill="none" d={this._visPath} />
+					{paramLabels}
 					{playheadLine}
 					{selectionSquare}
 				</svg>

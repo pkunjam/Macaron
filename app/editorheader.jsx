@@ -32,7 +32,7 @@ var EditorHeader = React.createClass({
 	    	displaySaveButton:true,
 	    	displayStartButton:false,
 			uploadFileID:"uploadedFile",
-			onUploadAudioFileID: "uploadAudioFile"
+			uploadAudioFileID: "uploadAudioFile"
 	    }
 	},
 
@@ -56,24 +56,25 @@ var EditorHeader = React.createClass({
 		document.getElementById(this.props.uploadFileID).click();
 	},
 
+	_onLoadAudioButtonClick: function (e) {
+		document.getElementById(this.props.uploadAudioFileID).click();
+	},
+
 	_onLoadClick : function(e) {
-		alert("onLoadClick called");
 		var uploadedFiles = document.getElementById(this.props.uploadFileID);
 		if (uploadedFiles.files.length > 0) {
-			SaveLoadStore.actions.onLoadMusic(uploadedFiles.files[0]);
 			SaveLoadStore.actions.loadMacaronFile(uploadedFiles.files[0]);
 		}
 		uploadedFiles.value = [];
 	},
 
 	_onLoadAudioClick: function (e) {
-		alert("onLoadAudioClick called");
-
-		var onUploadedAudioFiles = document.getElementById(this.props.onUploadAudioFileID);
-		if (onUploadedAudioFiles.files.length > 0) {
-			SaveLoadStore.actions.loadAudioFile(onUploadedAudioFiles.files[0]);
+		var uploadedAudioFiles = document.getElementById(this.props.uploadAudioFileID);
+		if (uploadedAudioFiles.files.length > 0) {
+			SaveLoadStore.actions.onLoadMusic(uploadedAudioFiles.files[0]);
+			SaveLoadStore.actions.loadAudioFile(uploadedAudioFiles.files[0]);
 		}
-		onUploadedAudioFiles.value = [];
+		uploadedAudioFiles.value = [];
 	},
 
 	/**
@@ -145,7 +146,7 @@ var EditorHeader = React.createClass({
 		var saveButton = <span />
 		if (this.props.displaySaveButton)
 		{
-			saveButton = (<a class="btn header" style={buttonStyle} onClick={this._onSaveClick} ><i className="fa fa-download"></i>Save</a>);
+			saveButton = (<a class="btn header" style={buttonStyle} onClick={this._onSaveClick} ><i className="fa fa-download"></i>Save Haptics</a>);
 			//saveButton = (<button onClick={this._onSaveClick}><i class="fa fa-download"></i>Finish</button>);
 		}
 
@@ -156,7 +157,7 @@ var EditorHeader = React.createClass({
 
 			loadButton = (<span>
 					<input type="file" className="hidden" id={this.props.uploadFileID} onChange={this._onLoadClick}></input>
-					<a class="btn header" style={buttonStyle} onClick={this._onLoadButtonClick} ><i className="fa fa-upload"></i>Load</a>
+					<a class="btn header" style={buttonStyle} onClick={this._onLoadButtonClick} ><i className="fa fa-upload"></i>Load Haptics</a>
 					</span>);
 		}
 
@@ -165,8 +166,8 @@ var EditorHeader = React.createClass({
 			// loadButton = (<a class="btn header" style={buttonStyle} onClick={this._onLoadClick} ><i className="fa fa-upload"></i> Load</a>);
 
 			loadAudioButton = (<span>
-				<input type="file" className="hidden" id={this.props.onUploadedAudioFiles} onChange={this._onLoadAudioClick}></input>
-				<a class="btn header" style={buttonStyle} onClick={this._onLoadButtonClick} ><i className="fa fa-upload"></i>Load Audio</a>
+				<input type="file" className="hidden" id={this.props.uploadAudioFileID} onChange={this._onLoadAudioClick}></input>
+				<a class="btn header" style={buttonStyle} onClick={this._onLoadAudioButtonClick} ><i className="fa fa-upload"></i>Load Audio</a>
 			</span>);
 		}
 
@@ -185,8 +186,8 @@ var EditorHeader = React.createClass({
 					<UserInstructions />
 					<UserAgreement />
 					{loadAudioButton}
-					{saveButton}
 					{loadButton}
+					{saveButton}
 				</span>
 
 
