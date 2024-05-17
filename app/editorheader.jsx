@@ -31,7 +31,8 @@ var EditorHeader = React.createClass({
 	    	displayInterfaceMode:false,
 	    	displaySaveButton:true,
 	    	displayStartButton:false,
-			uploadFileID:"uploadedFile"
+			uploadFileID:"uploadedFile",
+			onUploadAudioFileID: "uploadAudioFile"
 	    }
 	},
 
@@ -68,11 +69,11 @@ var EditorHeader = React.createClass({
 	_onLoadAudioClick: function (e) {
 		alert("onLoadAudioClick called");
 
-		var uploadedFiles = document.getElementById(this.props.uploadFileID);
-		if (uploadedFiles.files.length > 0) {
-			SaveLoadStore.actions.loadAudioFile(uploadedFiles.files[0]);
+		var onUploadedAudioFiles = document.getElementById(this.props.onUploadAudioFileID);
+		if (onUploadedAudioFiles.files.length > 0) {
+			SaveLoadStore.actions.loadAudioFile(onUploadedAudioFiles.files[0]);
 		}
-		uploadedFiles.value = [];
+		onUploadedAudioFiles.value = [];
 	},
 
 	/**
@@ -164,7 +165,7 @@ var EditorHeader = React.createClass({
 			// loadButton = (<a class="btn header" style={buttonStyle} onClick={this._onLoadClick} ><i className="fa fa-upload"></i> Load</a>);
 
 			loadAudioButton = (<span>
-				<input type="file" className="hidden" id={this.props.uploadFileID} onChange={this._onLoadAudioClick}></input>
+				<input type="file" className="hidden" id={this.props.onUploadedAudioFiles} onChange={this._onLoadAudioClick}></input>
 				<a class="btn header" style={buttonStyle} onClick={this._onLoadButtonClick} ><i className="fa fa-upload"></i>Load Audio</a>
 			</span>);
 		}
