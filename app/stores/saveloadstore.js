@@ -9,7 +9,7 @@ var saveLoadActions = Reflux.createActions(
 	[
 		'save',
 		'loadMacaronFile',
-		'loadAudioGuide',
+		'loadAudioFile',
 		'onLoadMusic'
 	]
 );
@@ -270,7 +270,6 @@ var saveLoadStore = Reflux.createStore({
 	onLoadMusic(file){
 		var musicPlayer = document.getElementById("musicPlayer");
 		musicPlayer.src = URL.createObjectURL(file);
-		// musicPlayer.play();
 
 	},
 
@@ -309,7 +308,7 @@ var saveLoadStore = Reflux.createStore({
 		}
 	},
 
-	onLoadAudioGuide(file) {
+	onLoadAudioFile(file) {
 		var reader = new FileReader();
 		reader.filename = file.name;
 
@@ -318,7 +317,7 @@ var saveLoadStore = Reflux.createStore({
 			reader.onload = function (e) {
 				var waveData = reader.result;
 				if (isWAVFile(reader, reader.filename)) {
-					loadWAVFile(reader);
+					loadWAVFileForAudio(reader);
 				} else {
 					alert('The selected file wasnt one that Macaron recognizes');
 				}
@@ -332,7 +331,7 @@ var saveLoadStore = Reflux.createStore({
 			reader.onload = function (e) {
 				var waveData = reader.result;
 				if (isJSONFile(reader, reader.filename)) {
-					VTIconStore.actions.setVTIcon(JSON.parse(waveData.slice(29)), "main");
+					VTIconStore.actions.setVTIcon(JSON.parse(waveData.slice(29)), "example");
 				} else {
 					alert('The selected file wasnt one that Macaron recognizes. Please upload an appropriate WAV or JSON file.');
 				}
@@ -639,18 +638,63 @@ var loadWAVFile = function(r) {
 
 			var fVal = findFFTRoot(waveChunk, sampleRate);
 
-			// Send the new keyframes to the main editor
+			// PK: Send the new keyframes to the main editor
 			VTIconStore.actions.newKeyframe("amplitude", tMid, aVal, false, "main");
 			VTIconStore.actions.newKeyframe("frequency", tMid, fVal, false, "main");
+
+		}
+
+		// PK: Sending keyframe operations to the main editor
+		VTIconStore.actions.unselectKeyframes("main");
+		VTIconStore.actions.addSelectedKeyframes([0,1], "main");
+		VTIconStore.actions.deleteSelectedKeyframes("main");
+
+	});
+}
+
+var loadWAVFileForAudio = function (r) {
+
+	var y;  // speaker displacement at time = t
+
+	var sampleRate;
+	var duration;
+	var nChannels;
+	var nFrames;
+	var wavedata = r.result;
+
+	var AudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+	AudioCtx.decodeAudioData(wavedata, function (buff) {
+		sampleRate = buff.sampleRate;
+		duration = buff.duration;
+		nChannels = buff.numberOfChannels;
+		nFrames = buff.length;
+
+		var waveBuffer = new Array(nFrames);
+		waveBuffer = buff.getChannelData(0); // Yup, just one channel...
+
+		var nPannels = 80; // The number of points at which the input is to
+		// be estimated. (MUST BE DIVISIBLE BY 20).
+		var pannelDuration = (duration * 1000) / nPannels; // in ms
+		var pannelWidth = Math.round(nFrames / nPannels); // in number of frames
+
+		for (var i = 0; i < nPannels; i++) {
+
+			var jMin = Math.round(pannelWidth * i);
+			var jMax = Math.round(pannelWidth * (i + 1));
+
+			var tMid = ((i * 1000 * duration) / nPannels) + ((500 * duration) / nPannels);
+
+			var waveChunk = waveBuffer.slice(jMin, jMax);
+
+			var aVal = Math.max.apply(null, waveChunk);
+
+			var fVal = findFFTRoot(waveChunk, sampleRate);
 
 			// PK: Send the new keyframes to the example editor
 			VTIconStore.actions.newKeyframe("amplitude", tMid, aVal, false, "example");
 			VTIconStore.actions.newKeyframe("frequency", tMid, fVal, false, "example");
 		}
-
-		VTIconStore.actions.unselectKeyframes("main");
-		VTIconStore.actions.addSelectedKeyframes([0,1], "main");
-		VTIconStore.actions.deleteSelectedKeyframes("main");
 
 		// PK: Sending the keyframe operations to the example editor
 		VTIconStore.actions.unselectKeyframes("example");
@@ -658,6 +702,7 @@ var loadWAVFile = function(r) {
 		VTIconStore.actions.deleteSelectedKeyframes("example");
 	});
 }
+
 
 /**
  *  findFFTRoot computes the Discrete Fourier Transform of the audio data,

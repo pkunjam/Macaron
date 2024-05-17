@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { Component } from 'react';
 import d3 from 'd3';
 
 var PlaybackStore = require('./stores/playbackstore.js');
@@ -23,24 +23,16 @@ var ControlBar = React.createClass({
 	    }
 	},
 
+	 componentDidMount() {
+        this.updateDeviceListOnLoad();
+    },
 
-	/**
-	* Event handlers
-	* 
-	*/
-	_onMuteClick : function (event) {
-		PlaybackStore.actions.toggleMute();
-	},
-
-	_onPlayClick : function (event) {
-		VTIconStore.actions.selectVTIcon(this.props.name);
-		PlaybackStore.actions.togglePlaying();
-
-		// Audio playback
+    // PK: Audio output device list dropdown
+	updateDeviceListOnLoad : () => {
+        const deviceList = document.getElementById('audioOutputDeviceList');
 		var musicPlayer = document.getElementById("musicPlayer");
-		const deviceList = document.getElementById('audioOutputDeviceList');
 
-		// Function to populate device list
+		// Function to populate audio output device list
 		function updateDeviceList(devices) {
 			deviceList.innerHTML = '';
 			devices.forEach((device) => {
@@ -66,7 +58,22 @@ var ControlBar = React.createClass({
 			.then(() => navigator.mediaDevices.enumerateDevices())
 			.then(updateDeviceList)
 			.catch(err => console.error('Failed to get media devices:', err));
+    },
 
+	
+	/**
+	* Event handlers
+	* 
+	*/
+	_onMuteClick : function (event) {
+		PlaybackStore.actions.toggleMute();
+	},
+
+	_onPlayClick : function (event) {
+		VTIconStore.actions.selectVTIcon(this.props.name);
+		PlaybackStore.actions.togglePlaying();
+
+		// PK: Play/Pause audio on click
 		if (musicPlayer.paused) {
 			musicPlayer.play();
 		  } else {
@@ -118,14 +125,18 @@ var ControlBar = React.createClass({
 		}
 
 		return (
+			
 			<div className="controlbar" style={divStyle}>
 				<div className="time-control" style={timeControlStyle}>
-					<select id="audioOutputDeviceList"></select>
-
 					 <a class="btn" href="#"><i onClick={this._onSkipBackwardClick} className="fa fa-step-backward" style={buttonStyle}></i></a>
 					 <a class="btn" href="#"><i onClick={this._onPlayClick} className={iconText} style={buttonStyle}></i></a>
 					 <a class="btn" href="#"><i onClick={this._onSkipForwardClick} className="fa fa-step-forward" style={buttonStyle}></i></a>
-					 <a class="btn" href="#"><span onClick={this._onMuteClick} className="unselectable mute"><input type="checkbox" checked={this.props.mute}/>Mute</span></a>
+					 <a class="btn" href="#"><span onClick={this._onMuteClick} className="unselectable mute"><input type="checkbox" checked={this.props.mute}/>Mute Haptics</span></a>
+					<div style={{display: 'inline-block', float: 'right'}}>
+						<span style={{fontSize:'20px'}}>Audio Output Device: </span><select id="audioOutputDeviceList" > </select> 
+					</div>
+					
+					 
 				</div>	
 			</div>
 			);

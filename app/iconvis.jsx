@@ -28,7 +28,7 @@ var IconVis = React.createClass({
 
 	getDefaultProps: function () {
 		return {
-			height: 190,
+			height: 100,
 			width: '100%',
 			visColor: '#FFDDAD',
 			background: "rgba(0,0,0,0)",
@@ -63,7 +63,6 @@ var IconVis = React.createClass({
 	},
 
 	render: function () {
-
 
 		var divStyle = {
 			height: this.props.height,

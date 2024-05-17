@@ -56,10 +56,21 @@ var EditorHeader = React.createClass({
 	},
 
 	_onLoadClick : function(e) {
+		alert("onLoadClick called");
 		var uploadedFiles = document.getElementById(this.props.uploadFileID);
 		if (uploadedFiles.files.length > 0) {
 			SaveLoadStore.actions.onLoadMusic(uploadedFiles.files[0]);
 			SaveLoadStore.actions.loadMacaronFile(uploadedFiles.files[0]);
+		}
+		uploadedFiles.value = [];
+	},
+
+	_onLoadAudioClick: function (e) {
+		alert("onLoadAudioClick called");
+
+		var uploadedFiles = document.getElementById(this.props.uploadFileID);
+		if (uploadedFiles.files.length > 0) {
+			SaveLoadStore.actions.loadAudioFile(uploadedFiles.files[0]);
 		}
 		uploadedFiles.value = [];
 	},
@@ -148,6 +159,15 @@ var EditorHeader = React.createClass({
 					</span>);
 		}
 
+		var loadAudioButton = <span />
+		if (this.props.displaySaveButton) {
+			// loadButton = (<a class="btn header" style={buttonStyle} onClick={this._onLoadClick} ><i className="fa fa-upload"></i> Load</a>);
+
+			loadAudioButton = (<span>
+				<input type="file" className="hidden" id={this.props.uploadFileID} onChange={this._onLoadAudioClick}></input>
+				<a class="btn header" style={buttonStyle} onClick={this._onLoadButtonClick} ><i className="fa fa-upload"></i>Load Audio</a>
+			</span>);
+		}
 
 		return (
 			<div className="header" style={headerStyle}>
@@ -163,10 +183,9 @@ var EditorHeader = React.createClass({
 					{interfaceModeDisplay}
 					<UserInstructions />
 					<UserAgreement />
+					{loadAudioButton}
 					{saveButton}
 					{loadButton}
-					
-
 				</span>
 
 
