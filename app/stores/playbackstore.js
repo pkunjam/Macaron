@@ -97,9 +97,16 @@ var playbackStore = Reflux.createStore({
 
 
 
-	onSkipBackward() { this.onSetTime(0); },
+	onSkipBackward() { 
+		
+		var audioPlayer = document.getElementById('musicPlayer');
+		audioPlayer.currentTime = 0;
+		this.onSetTime(0); },
 
-	onSkipForward() {this.onSetTime(this._vtduration);},
+	onSkipForward() {
+		var audioPlayer = document.getElementById('musicPlayer');
+		audioPlayer.currentTime = this._vtduration;
+		this.onSetTime(this._vtduration);}, 
 
 
 	/**

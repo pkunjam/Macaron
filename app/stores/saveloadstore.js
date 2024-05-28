@@ -620,7 +620,7 @@ var loadWAVFile = function(r) {
 		var waveBuffer = new Array(nFrames);
 		waveBuffer = buff.getChannelData(0); // Yup, just one channel...
 
-		var nPannels = 80; // The number of points at which the input is to
+		var nPannels = 320; // The number of points at which the input is to
 											 // be estimated. (MUST BE DIVISIBLE BY 20).
 		var pannelDuration = (duration * 1000) / nPannels; // in ms
 		var pannelWidth = Math.round(nFrames / nPannels); // in number of frames

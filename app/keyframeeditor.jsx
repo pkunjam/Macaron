@@ -29,7 +29,7 @@ var KeyframeEditor = React.createClass({
 
 	getDefaultProps: function () {
 		return {
-			height: 140,
+			height: 150,
 			width: "100%",
 			circleColor: '#FF8400',
 			selectedCircleColor: '#B05B00',
